@@ -27,8 +27,7 @@ CREATE TABLE IF NOT EXISTS hBase.nation(
     n_comment varchar(152) NOT NULL,
     
     FOREIGN KEY (n_regionkey)
-        REFERENCES region (r_regionkey)
-        ON DELETE CASCADE,
+        REFERENCES hBase.region (r_regionkey),
     PRIMARY KEY (n_nationkey)
 );
 
@@ -49,13 +48,12 @@ CREATE TABLE IF NOT EXISTS hBase.supplier(
 	s_suppkey varchar(255) NOT NULL,
     s_name char(25) NOT NULL,
     s_address varchar(40) NOT NULL,
-    s_nationkey char(10) NOT NULL,
+    s_nationkey varchar(255) NOT NULL,
     s_phone char(15) NOT NULL,
     s_acctbal decimal(10,0) NOT NULL,
     s_comment varchar(101) NOT NULL,
     FOREIGN KEY (s_nationkey)
-        REFERENCES nation (n_nationkey)
-        ON DELETE CASCADE,
+        REFERENCES hBase.nation (n_nationkey),
     PRIMARY KEY (s_suppkey)
 );
 
@@ -66,11 +64,9 @@ CREATE TABLE IF NOT EXISTS hBase.partsupp(
     ps_supplycost decimal(10,0) NOT NULL,
     ps_comment varchar(101) NOT NULL,
     FOREIGN KEY (ps_partkey)
-        REFERENCES part (p_partkey)
-        ON DELETE CASCADE,
+        REFERENCES hBase.part (p_partkey),
     FOREIGN KEY (ps_suppkey)
-        REFERENCES supplier (s_suppkey)
-        ON DELETE CASCADE,    
+        REFERENCES hBase.supplier (s_suppkey),   
     PRIMARY KEY (ps_partkey,ps_suppkey)
 );
 
@@ -85,8 +81,7 @@ CREATE TABLE IF NOT EXISTS hBase.orders(
     o_shippriority int NOT NULL,
     o_comment varchar(79) NOT NULl,
     FOREIGN KEY (o_custkey)
-        REFERENCES customer (c_custkey)
-        ON DELETE CASCADE,  
+        REFERENCES hBase.customer (c_custkey),
     PRIMARY KEY (o_orderkey)
 );
 
@@ -108,13 +103,10 @@ CREATE TABLE IF NOT EXISTS hBase.lineitem(
     l_shipmode char(10) NOT NULl,
     l_comment varchar(40) NOT NULl,
     FOREIGN KEY (l_orderkey)
-        REFERENCES orders (o_orderkey)
-        ON DELETE CASCADE,
+        REFERENCES hBase.orders (o_orderkey),
     FOREIGN KEY (l_partkey)
-        REFERENCES part (p_partkey)
-        ON DELETE CASCADE,
+        REFERENCES hBase.part (p_partkey),
     FOREIGN KEY (l_supplykey)
-        REFERENCES supplier (s_suppkey)
-        ON DELETE CASCADE,  
+        REFERENCES hBase.supplier (s_suppkey), 
     PRIMARY KEY (l_orderkey,l_linenumber)
 );
